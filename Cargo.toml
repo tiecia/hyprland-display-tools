@@ -1,5 +1,5 @@
 [package]
-name = "hyprland-display-manager-rs"
+name = "hyprland-display-tools"
 version = "0.1.0"
 edition = "2024"
 
