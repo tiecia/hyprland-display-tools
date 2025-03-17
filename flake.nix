@@ -13,7 +13,11 @@
       in
       {
         packages = rec {
-          hyprland-display-tools = naersk-lib.buildPackage ./.;
+          hyprland-display-tools = naersk-lib.buildPackage {
+            name = "hyprland-display-tools";
+            version = "0.1.0";
+            src = ./.;
+          };
           default = hyprland-display-tools;
         };
         devShell = with pkgs; mkShell {
