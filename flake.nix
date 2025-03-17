@@ -12,9 +12,18 @@
         naersk-lib = pkgs.callPackage naersk { };
       in
       {
-        defaultPackage = naersk-lib.buildPackage ./.;
+        packages = rec {
+          hyprland-display-tools = naersk-lib.buildPackage ./.;
+          default = hyprland-display-tools;
+        };
         devShell = with pkgs; mkShell {
-          buildInputs = [ cargo rustc rustfmt pre-commit rustPackages.clippy ];
+          buildInputs = [ 
+            cargo
+            rustc
+            rustfmt
+            pre-commit
+            rustPackages.clippy
+          ];
           RUST_SRC_PATH = rustPlatform.rustLibSrc;
         };
       }
