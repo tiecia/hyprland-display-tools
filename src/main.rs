@@ -7,6 +7,8 @@ fn main() -> hyprland::Result<()> {
     event_listener.add_monitor_added_handler(on_monitor_added);
     event_listener.add_monitor_removed_handler(on_monitor_removed);
 
+    println!("Listening for events...");
+
     event_listener
         .start_listener()
         .expect("Unable to listen for events.");
