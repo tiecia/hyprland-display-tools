@@ -9,6 +9,7 @@ fn main() -> hyprland::Result<()> {
     event_listener.add_monitor_removed_handler(on_monitor_removed);
 
     log_xdg_runtime_location();
+    log_hyprland_signature();
 
     println!("Listening for events...");
 
@@ -54,4 +55,10 @@ fn log_xdg_runtime_location() {
     env::var("XDG_RUNTIME_DIR")
         .map(|dir| println!("XDG_RUNTIME_DIR: {dir}"))
         .unwrap_or_else(|_| println!("XDG_RUNTIME_DIR is not set."));
+}
+
+fn log_hyprland_signature() {
+    env::var("HYPRLAND_INSTANCE_SIGNATURE")
+        .map(|dir| println!("HYPRLAND_INSTANCE_SIGNATURE: {dir}"))
+        .unwrap_or_else(|_| println!("HYPRLAND_INSTANCE_SIGNATURE is not set."));
 }
