@@ -1,4 +1,5 @@
 use hyprland::event_listener::{EventListener, MonitorAddedEventData};
+use std::env;
 use std::process::Command;
 
 fn main() -> hyprland::Result<()> {
@@ -6,6 +7,8 @@ fn main() -> hyprland::Result<()> {
 
     event_listener.add_monitor_added_handler(on_monitor_added);
     event_listener.add_monitor_removed_handler(on_monitor_removed);
+
+    log_xdg_runtime_location();
 
     println!("Listening for events...");
 
@@ -45,4 +48,10 @@ fn close_bar() {
 
 fn open_bar() {
     Command::new("ags").spawn().expect("Unable to open bar.");
+}
+
+fn log_xdg_runtime_location() {
+    env::var("XDG_RUNTIME_DIR")
+        .map(|dir| println!("XDG_RUNTIME_DIR: {dir}"))
+        .unwrap_or_else(|_| println!("XDG_RUNTIME_DIR is not set."));
 }
