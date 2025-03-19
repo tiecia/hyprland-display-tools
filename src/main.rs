@@ -11,6 +11,8 @@ fn main() -> hyprland::Result<()> {
     log_xdg_runtime_location();
     log_hyprland_signature();
 
+    reset_shell();
+
     println!("Listening for events...");
 
     event_listener
@@ -26,29 +28,29 @@ fn on_monitor_added(data: MonitorAddedEventData) {
     let monitor_name = data.name;
     println!("Monitor connected: {monitor_name}, {monitor_id}, {monitor_description}");
 
-    reset_bar();
+    reset_shell();
 }
 
 fn on_monitor_removed(monitor_name: String) {
     println!("Monitor disconnected: {monitor_name}");
 
-    reset_bar();
+    reset_shell();
 }
 
-fn reset_bar() {
-    close_bar();
-    open_bar();
-}
-
-fn close_bar() {
-    Command::new("ags")
-        .arg("-q")
+fn reset_shell() {
+    match Command::new("systemctl")
+        .arg("restart")
+        .arg("--user")
+        .arg("ags-desktop-shell.service")
         .status()
-        .expect("Unable to close bar.");
-}
-
-fn open_bar() {
-    Command::new("ags").spawn().expect("Unable to open bar.");
+    {
+        Ok(_) => {
+            println!("Shell restarted")
+        }
+        Err(error) => {
+            println!("Unable to restart shell: {error}");
+        }
+    }
 }
 
 fn log_xdg_runtime_location() {
